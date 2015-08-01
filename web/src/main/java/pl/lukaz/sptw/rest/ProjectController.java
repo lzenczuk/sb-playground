@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import pl.lukaz.sptw.rest.model.RestResult;
 import pl.lukaz.sptw.rest.model.project.RestProject;
+import pl.lukaz.sptw.security.CurrentUser;
 import pl.lukaz.sptw.service.project.ProjectService;
 import pl.lukaz.sptw.service.project.model.ProjectDTO;
+import pl.lukaz.sptw.service.user.model.UserDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,8 +31,8 @@ public class ProjectController {
     private ProjectService projectService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public RestResult<List<RestProject>> getAllUsersProjects() {
-        List<RestProject> restProjects = projectService.getAllProjects("1")
+    public RestResult<List<RestProject>> getAllUserProjects(@CurrentUser UserDTO user) {
+        List<RestProject> restProjects = projectService.getAllProjects(user.getId())
                 .stream()
                 .map(projectDTOToRestProject)
                 .collect(Collectors.toList());
@@ -39,8 +41,8 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/id/{projectId}", method = RequestMethod.GET)
-    RestResult<RestProject> getProjectById(@PathVariable String projectId) {
-        return projectService.getProjectById("1", projectId)
+    RestResult<RestProject> getProjectById(@CurrentUser UserDTO user, @PathVariable String projectId) {
+        return projectService.getProjectById(user.getId(), projectId)
                 .map(projectDTOToRestProject)
                 .map(RestResult::success).orElse(RestResult.fail());
     }

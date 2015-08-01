@@ -30,9 +30,12 @@ jar {
 
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web:1.2.3.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-security:1.2.3.RELEASE'
 
-    compile project(':project-service:interface')
+    compile project(':project-service:project-service-interface')
+    compile project(':user-service:user-service-interface')
     testCompile group: 'junit', name: 'junit', version: '4.11'
 
     runtime project(':project-service:in-memory-project-service')
+    runtime project(':user-service:in-memory-user-service')
 }

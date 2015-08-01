@@ -1,5 +1,5 @@
 dependencies {
-    compile project(':project-service:project-service-interface')
+    compile project(':user-service:user-service-interface')
 
     compile 'org.springframework:spring-context-support:4.1.6.RELEASE'
 }

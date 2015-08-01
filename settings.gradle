@@ -3,6 +3,10 @@ rootProject.name = 'spsec'
 include 'web'
 
 include 'project-service'
-include 'project-service:interface'
+include 'project-service:project-service-interface'
 include 'project-service:in-memory-project-service'
+
+include 'user-service'
+include 'user-service:user-service-interface'
+include 'user-service:in-memory-user-service'
 
