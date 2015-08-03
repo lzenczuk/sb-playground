@@ -25,7 +25,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
-    /*@Override
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/resources/**").permitAll()
@@ -33,8 +33,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                     .loginPage("/login").permitAll()
-                    .failureUrl("/login?error").usernameParameter("username").passwordParameter("password")
                 .and()
-                    .logout().logoutSuccessUrl("/login?logout");
-    }*/
+                .logout()
+                    .logoutSuccessUrl("/logout").permitAll();
+    }
 }
