@@ -15,5 +15,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
         // Because at this moment we don't have login controller we have specify view
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/logout").setViewName("logout");
+        registry.addViewController("/jsonLogin").setViewName("jsonLogin");
+        //registry.addViewController("/jsonLogout").setViewName("jsonLogout");
     }
 }

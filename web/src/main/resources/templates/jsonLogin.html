@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <title>JSON login test page</title>
+    <script type="application/javascript" src="/js/jquery-2.1.4.min.js"></script>
+    <script type="application/javascript">
+        var csrfHeader = {};
+
+        function extractCSRF() {
+            token = $("meta[name='_csrf']").attr("content");
+            header = $("meta[name='_csrf_header']").attr("content");
+            csrfHeader[header]=token;
+        }
+
+        function hideLoginForm() {
+            $("#loginForm").hide()
+        }
+
+        function showLoginForm() {
+            $("#loginForm").show()
+        }
+
+        function hideLogoutForm() {
+            $("#logoutForm").hide()
+        }
+
+        function showLogoutForm() {
+            $("#logoutForm").show()
+        }
+
+        function login() {
+
+            $.ajax({
+                url: '/user/login',
+                type: 'post',
+                data: {
+                    userName: $("#userName").val(),
+                    password: $("#password").val()
+                },
+                headers: csrfHeader,
+                dataType: 'json'
+            })
+                    .done(function (data) {
+                        if(data.success){
+                            $("#loginErrorMessage").hide();
+                            hideLoginForm();
+                            showLogoutForm();
+                        }else{
+                            $('#errorMessage').text(data.errorMessage).show();
+                            hideLogoutForm();
+                            showLoginForm();
+                        }
+
+                    })
+                    .fail(function (data) {
+
+                    })
+        }
+
+        function logout() {
+
+            $.ajax({
+                url: '/user/logout',
+                type: 'post',
+                headers: csrfHeader,
+                dataType: 'json'
+            })
+                    .done(function (data) {
+                        if(data.success){
+                            $("#errorMessage").hide();
+                            hideLogoutForm();
+                            showLoginForm();
+                        }else{
+                            $('#errorMessage').text(data.errorMessage).show();
+                            hideLoginForm();
+                            showLogoutForm();
+                        }
+
+                    })
+                    .fail(function (data) {
+                        $('#errorMessage').text(data.status+" "+data.statusText).show();
+                    })
+        }
+
+        function getProjects() {
+            $.ajax({
+                url: '/project',
+                type: 'get',
+                headers: csrfHeader,
+                dataType: 'json'
+            })
+                    .done(function (data) {
+                        if(data.success){
+                            $("#projects").text(JSON.stringify(data.value))
+                        }else{
+                            $("#projects").text(JSON.stringify(data.errors.forEach))
+                        }
+
+                    })
+                    .fail(function (data) {
+                        $("#projects").text("Error: "+data.status+" "+data.statusText)
+                    })
+        }
+
+        $(document).ready(function () {
+            extractCSRF();
+            hideLogoutForm();
+
+            $("#loginButton").click(login);
+            $("#logoutButton").click(logout);
+            $("#getProjectsButton").click(getProjects);
+        })
+    </script>
+</head>
+<body>
+<div id="errorMessage"></div>
+<div id="loginForm">
+    Login: <input type="text" id="userName"/><br/>
+    Password: <input type="password" id="password"/><br/>
+    <input id="loginButton" type="button" value="Login"/>
+</div>
+<div id="logoutForm">
+    User logged in.<br/>
+    <input id="logoutButton" type="button" value="Logout"/>
+</div>
+<div>
+    <input id="getProjectsButton" type="button" value="Get projects"/>
+
+    <div id="projects"></div>
+</div>
+</body>
+</html>

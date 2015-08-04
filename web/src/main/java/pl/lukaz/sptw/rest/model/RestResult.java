@@ -8,12 +8,12 @@ import java.util.List;
  * @author lzenczuk 31/07/2015
  */
 public class RestResult<T> {
-    private final boolean succesfull;
+    private final boolean success;
     private final List<String> errors;
     private final T value;
 
-    private RestResult(boolean succesfull, List<String> errors, T value) {
-        this.succesfull = succesfull;
+    private RestResult(boolean success, List<String> errors, T value) {
+        this.success = success;
         this.errors = errors;
         this.value = value;
     }
@@ -30,8 +30,8 @@ public class RestResult<T> {
         return new RestResult<>(false, Arrays.asList(errors), null);
     }
 
-    public boolean isSuccesfull() {
-        return succesfull;
+    public boolean isSuccess() {
+        return success;
     }
 
     public List<String> getErrors() {
