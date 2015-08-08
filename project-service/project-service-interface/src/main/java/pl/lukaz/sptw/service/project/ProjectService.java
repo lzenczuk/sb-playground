@@ -10,6 +10,9 @@ import java.util.Optional;
  */
 public interface ProjectService {
 
-    List<ProjectDTO> getAllProjects(String userId);
-    Optional<ProjectDTO> getProjectById(String userId, String projectId);
+    List<ProjectDTO> getAllProjects();
+    Optional<ProjectDTO> getProjectById(String projectId);
+    Optional<ProjectDTO> createProject(String title);
+    boolean deleteProject(String projectId);
+    Optional<ProjectDTO> updateProject(String projectId, String title);
 }

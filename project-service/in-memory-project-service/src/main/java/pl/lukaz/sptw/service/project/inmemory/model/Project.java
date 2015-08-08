@@ -4,8 +4,8 @@ package pl.lukaz.sptw.service.project.inmemory.model;
  * @author lzenczuk 31/07/2015
  */
 public class Project {
-    private final String id;
-    private final String title;
+    private String id;
+    private String title;
 
     public Project(String id, String title) {
         this.id = id;
@@ -16,7 +16,15 @@ public class Project {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

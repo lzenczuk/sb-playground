@@ -6,4 +6,5 @@ package pl.lukaz.sptw.service.user.inmemory.model;
 public class Roles {
     public static final String ADMIN = "ADMIN";
     public static final String USER = "USER";
+    public static final String PROJECTS_MANAGER = "PROJECTS_MANAGER";
 }
