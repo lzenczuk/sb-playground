@@ -14,6 +14,6 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     public void addViewControllers(ViewControllerRegistry registry) {
         // Because at this moment we don't have login controller we have specify view
         registry.addViewController("/login").setViewName("login");
-        registry.addViewController("/logout").setViewName("logout");
+        registry.addViewController("/logout-message").setViewName("logout-message");
     }
 }

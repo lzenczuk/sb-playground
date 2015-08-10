@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>SB Playground</title>
+</head>
+<body>
+<!-- primitive top bar -->
+<div style="position: absolute; top: 0; left: 0; right: 0; height: 25px; background-color: #000; color: #fff">
+Spring boot playground
+    <div style="float: right" th:if="${loggedIn}">
+        <span th:text="'Hello ' + ${userName} + '!'"/>
+        <form style="display: inline" th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign out"/>
+        </form>
+    </div>
+    <div style="float: right" th:if="${!loggedIn}">
+        <form style="display: inline" th:action="@{/login}" method="post">
+            <label> User Name : <input type="text" name="username"/> </label>
+            <label> Password: <input type="password" name="password"/> </label>
+            <input type="submit" value="Sign In"/>
+        </form>
+    </div>
+</div>
+<div style="padding-top: 30px">
+    <h1>Welcome</h1>
+    <span>
+        Project for testing spring and spring boot features.
+    </span>
+</div>
+</body>
+</html>

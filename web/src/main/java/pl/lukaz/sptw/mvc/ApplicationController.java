@@ -10,11 +10,17 @@ import pl.lukaz.sptw.security.WebUser;
  * @author lzenczuk 03/08/2015
  */
 @Controller
-public class HelloController {
+public class ApplicationController {
 
     @RequestMapping("/")
     public String helloPage(Model model, @CurrentUser WebUser user){
-        model.addAttribute("userName", user.getName());
-        return "hello";
+        if(user!=null){
+            model.addAttribute("loggedIn", true);
+            model.addAttribute("userName", user.getName());
+        }else{
+            model.addAttribute("loggedIn", false);
+            model.addAttribute("userName", "Guest");
+        }
+        return "application";
     }
 }

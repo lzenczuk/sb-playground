@@ -26,7 +26,7 @@ public class InMemoryUserService implements UserService {
     private Map<String, User> storage = new HashMap<>();
 
     public InMemoryUserService() {
-        storage.put("lucjan", User.activeAndConfirmed("1", "lucjan", PASSWORD_123, Roles.ADMIN, Roles.USER));
+        storage.put("lucjan", User.activeAndConfirmed("1", "lucjan", PASSWORD_123, Roles.ADMIN, Roles.USER, Roles.PROJECTS_MANAGER));
         storage.put("tom", User.activeAndConfirmed("2", "tom", PASSWORD_123, Roles.USER));
         storage.put("mark", User.newAdded("3", "mark", PASSWORD_PASSWORD, Roles.USER));
     }
