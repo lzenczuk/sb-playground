@@ -3,19 +3,14 @@ package pl.lukaz.sptw.rest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import pl.lukaz.sptw.rest.model.RestResult;
 import pl.lukaz.sptw.rest.model.project.RestProject;
-import pl.lukaz.sptw.security.CurrentUser;
 import pl.lukaz.sptw.service.project.ProjectService;
 import pl.lukaz.sptw.service.project.model.ProjectDTO;
-import pl.lukaz.sptw.service.user.model.UserDTO;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -24,7 +19,7 @@ import java.util.stream.Collectors;
  */
 
 @RestController
-@RequestMapping("/project")
+@RequestMapping("/api/project")
 public class ProjectController {
 
     private final Log log = LogFactory.getLog(ProjectController.class);
@@ -53,10 +48,16 @@ public class ProjectController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
+    @PreAuthorize("hasRole('PROJECTS_MANAGER')")
     RestResult<RestProject> createProject(String title) {
         return projectService.createProject(title)
                 .map(projectDTOToRestProject)
                 .map(RestResult::success).orElse(RestResult.fail());
+    }
+
+    @RequestMapping("/ex")
+    RestResult<RestProject> throwException(String title) {
+        throw new RuntimeException("Something goes wrong");
     }
 
 }
