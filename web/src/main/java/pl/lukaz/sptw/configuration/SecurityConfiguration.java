@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import pl.lukaz.sptw.rest.model.RestResult;
 
 import javax.servlet.ServletException;
@@ -52,15 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin()
                     .loginPage("/login").permitAll()
                 .and()
-                .logout()
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/logout-message").permitAll()
-                .and()
-                .csrf().disable(); // remove this - useful for postman testing
-
-        // 401 - Support for requests requires authentication
-        /*http.antMatcher("/api*//**")
-                .exceptionHandling().authenticationEntryPoint(
+                    .exceptionHandling().defaultAuthenticationEntryPointFor(
                 (HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)-> {
                     response.setContentType("application/json");
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -68,7 +61,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     System.out.println("----------------> My auth handler");
 
                     ObjectMapper mapper = new ObjectMapper();
-                    mapper.writeValue(response.getOutputStream(), RestResult.fail("Access denied?!"));
-                });*/
+                    mapper.writeValue(response.getOutputStream(), RestResult.fail("Authentication required"));
+                }, new AntPathRequestMatcher("/api*/**"))
+
+
+                .and()
+                .logout()
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/logout-message").permitAll()
+                .and()
+                .csrf().disable(); // remove this - useful for postman testing
     }
 }
